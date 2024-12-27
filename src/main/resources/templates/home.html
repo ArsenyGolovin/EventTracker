@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+	<title>EventTracker</title>
+	<script src="https://unpkg.com/htmx.org@2.0.1"></script>
+</head>
+
+<body>
+	<h1>Это главная страница.</h1>
+	<h2>Здесь будут отображаться доступные мероприятия и другие объявления.</h2>
+	<div th:if="${user.id==0}">
+		<p>
+			<a href="userprofile/sign_in">Войти в аккаунт</a>
+		</p>
+		<p>
+			Не зарегистрированы? <a href="userprofile/sign_up">Регистрация</a>
+		</p>
+	</div>
+	<div th:unless="${user.id==0}">
+		<p>
+			Ваш профиль: <a th:text="${user.name}" href="/userprofile">Ваш профиль: Anton</a>
+		</p>
+	</div>
+	<p>Доступные мероприятия:</p>
+</body>

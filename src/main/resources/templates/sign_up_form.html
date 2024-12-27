@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+
+<head>
+	<title>Регистрация</title>
+</head>
+
+<body>
+	<h1>Регистрация</h1>
+	<form method="post" th:object="${user}">
+		<p>Имя: <input type="text" th:field="*{name}"></p>
+		<p>Пароль: <input type="password" th:field="*{password}"></p>
+		<button>Подтвердить</button>
+	</form>
+
+</body>

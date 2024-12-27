@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<head>
+	<title>Вход</title>
+</head>
+<body>
+	<form method="post" th:object="${tempUser}">
+		<p>Логин: <input type="text" th:field="*{name}"></p>
+		<p>Пароль: <input type="password" th:field="*{password}"></p>
+		<button>Отправить</button>
+	</form>
+</body>

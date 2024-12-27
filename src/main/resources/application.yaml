@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: EventTracker
+  datasource:
+    generate-unique-name: false
+    name: EventTracker
