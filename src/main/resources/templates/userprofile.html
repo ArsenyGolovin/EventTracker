@@ -1,10 +1,14 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
 	<title>Профиль</title>
 </head>
+
 <body>
 	<h2>Это Ваш профиль.</h2>
 	<p th:text="${user.name}">Anton</p>
 	<p><a href="/">На главную</a></p>
+	<p><a href="/events/create">Спланировать мероприятие</a></p>
 	<p><a href="/userprofile/logout">Выйти</a></p>
 </body>

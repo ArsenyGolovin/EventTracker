@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>EventTracker</title>
+</head>
+
+<body>
+	<h1>Cоздайте план своего мероприятия здесь.</h1>
+	<form method="post">
+		<p>Название: <input type="text" th:field="${event.name}"></p>
+		<p>Дата и время начала: <input th:type="datetime-local" th:field="${event.startDatetime}"></p>
+		<p>Дата и время окончания: <input th:type="datetime-local" th:field="*{event.endDatetime}"></p>
+		<button>Готово</button>
+	</form>
+</body>

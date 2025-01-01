@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+
+<head></head>
+
+<body>
+		<button hx-post="/events/add" hx-swap="outerHTML" hx-target="btn" th:fragment="btn"
+			th:text="${parttakers.contains(user) ? 'Отменить участие' : 'Участвовать'}"
+			name="eventId" th:value="${event.id}">Участвовать</button>
+		</button>
+		
+</body>

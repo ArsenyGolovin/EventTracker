@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+<head></head>
+
+<body>
+	<div id="btn-and-parttakers" th:fragment="btn-and-parttakers">
+		<button hx-post="/events/add-or-delete-parttaker" hx-swap="innerHTML" hx-target="#btn-and-parttakers"
+			th:text="${parttakers.contains(user) ? 'Отменить участие' : 'Участвовать'}" name="eventId"
+			th:value="${event.id}"></button>
+		</button>
+		<div th:if="${parttakers.isEmpty()}">
+			Участников пока нет.
+		</div>
+		<div th:unless="${parttakers.isEmpty()}">
+			Уже участвуют: <span th:each="parttaker : ${parttakers}" th:text="*{parttaker.name + ', '}"></span>
+		</div>
+	</div>
+</body>

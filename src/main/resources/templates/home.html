@@ -1,9 +1,8 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<title>EventTracker</title>
-	<script src="https://unpkg.com/htmx.org@2.0.1"></script>
 </head>
 
 <body>
@@ -18,9 +17,11 @@
 		</p>
 	</div>
 	<div th:unless="${user.id==0}">
-		<p>
-			Ваш профиль: <a th:text="${user.name}" href="/userprofile">Ваш профиль: Anton</a>
-		</p>
+		<p>Ваш профиль: <a th:text="${user.name}" href="/userprofile">Anton</a></p>
 	</div>
 	<p>Доступные мероприятия:</p>
+	<div th:each="event : ${events}" th:object="${event}">
+		<a th:text="*{name} + ' (' + *{startDatetime} + ' - ' + *{endDatetime} + ')'"
+			th:href="@{/events/{id}(id=*{id})}">Новое мероприятие (01.02.2026 10:30 - 01.02.2026 14:30)</a>
+	</div>
 </body>
