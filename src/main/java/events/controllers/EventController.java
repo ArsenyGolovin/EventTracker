@@ -25,24 +25,30 @@ import events.repositories.UserRepository;
 @RequestMapping("/events")
 public class EventController {
 
+	private final UserRepository userRepo;
 	private final EventRepository eventRepo;
 	private final EntryRepository entryRepo;
 
 	public EventController(UserRepository userRepo, EventRepository eventRepo, EntryRepository entryRepo) {
+		this.userRepo = userRepo;
 		this.eventRepo = eventRepo;
 		this.entryRepo = entryRepo;
 	}
 
 	@GetMapping("/{eventId}")
-	public String showEventById(Model model, @PathVariable int eventId) {
-		Optional<Event> event = eventRepo.findById(eventId);
-		if (event.isEmpty()) {
+	public String showEvent(Model model, @PathVariable int eventId) {
+		Optional<Event> e = eventRepo.findById(eventId);
+		if (e.isPresent()) {
+			Event event = e.get();
+			model.addAttribute("organizer", userRepo.findById(event.getCreatorId()).get());
+			model.addAttribute("event", event);
+			List<User> parttakers = entryRepo.findParttakersByEventId(event.getId());
+			model.addAttribute("parttakers", parttakers);
+			return "event";
+		} else {
 			model.addAttribute("message", "Мероприятие не найдено.");
 			return "error";
 		}
-		model.addAttribute("event", event.get());
-		model.addAttribute("parttakers", entryRepo.findParttakersByEventId(event.get().getId()));
-		return "event";
 	}
 
 	@GetMapping("/create")
@@ -54,21 +60,24 @@ public class EventController {
 	@PostMapping("/create")
 	public String createEvent(Model model, @ModelAttribute Event event) {
 		User user = (User) model.getAttribute("user"); // Don't add via @ModelAttribute -
-														// fields "name" of Event and User will be mixed up.
+														// Event.name and User.name will be mixed up.
 		event.setCreatorId(user.getId());
 		event = eventRepo.save(event);
 		return "redirect:/events/" + event.getId();
 	}
 
 	@PostMapping(path = "/add-or-delete-parttaker", headers = "hx-request=true")
-	private String addOrDeleteParttaker(Model model, @ModelAttribute User user, @RequestParam int eventId) {
+	private String addOrDeleteParttaker(Model model, @RequestParam int eventId, @ModelAttribute User user) {
 		List<User> parttakers = entryRepo.findParttakersByEventId(eventId);
-		if (parttakers.contains(user))
+		if (parttakers.contains(user)) {
 			entryRepo.deleteByParttakerIdAndEventId(user.getId(), eventId);
-		else
+			parttakers.remove(user);
+		} else {
 			entryRepo.save(new Entry(user.getId(), eventId));
-		model.addAttribute("parttakers", entryRepo.findParttakersByEventId(eventId));
-		model.addAttribute("event", eventRepo.findById(eventId).get());
+			parttakers.add(user);
+		}
+		model.addAttribute("parttakers", parttakers);
+		model.addAttribute("eventId", eventId);
 		return "_fragments :: btn-and-parttakers";
 	}
 }

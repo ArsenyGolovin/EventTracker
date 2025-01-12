@@ -11,4 +11,7 @@
 	<p><a href="/">На главную</a></p>
 	<p><a href="/events/create">Спланировать мероприятие</a></p>
 	<p><a href="/userprofile/logout">Выйти</a></p>
+	<div th:replace="~{_fragments :: user-events}">Вы не зарегистрированы ни на одно мероприятие.</div>
+	<div th:replace="~{_fragments :: organized-events}"></div>
+	<div th:replace="~{_fragments :: aviable-events}">Нет доступных мероприятий.</div>
 </body>

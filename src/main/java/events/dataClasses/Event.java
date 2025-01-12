@@ -3,14 +3,15 @@ package events.dataClasses;
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(of = { "id" })
 @Table("EVENTS")
-public class Event {
+public class Event implements Comparable<Event> {
 
 	@Id
 	private int id;
@@ -20,4 +21,9 @@ public class Event {
 
 	private LocalDateTime startDatetime;
 	private LocalDateTime endDatetime;
+
+	@Override
+	public int compareTo(Event e) {
+		return startDatetime.compareTo(e.startDatetime);
+	}
 }

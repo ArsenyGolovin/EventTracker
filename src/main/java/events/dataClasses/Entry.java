@@ -4,7 +4,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 import lombok.Data;
-import lombok.Generated;
 
 @Data
 @Table("ENTRIES")
@@ -15,7 +14,7 @@ public class Entry {
 
 	private int parttakerId;
 	private int eventId;
-	
+
 	public Entry(int parttakerId, int eventId) {
 		this.id = 0;
 		this.parttakerId = parttakerId;

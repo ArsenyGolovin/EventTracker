@@ -4,15 +4,53 @@
 
 <body>
 	<div id="btn-and-parttakers" th:fragment="btn-and-parttakers">
-		<button hx-post="/events/add-or-delete-parttaker" hx-swap="innerHTML" hx-target="#btn-and-parttakers"
+		<p th:if="${user.isTemp()}">
+			<a th:href="@{/userprofile/sign_up(eventId=${eventId})}">Зарегистрируйтесь</a> или
+			<a th:href="@{/userprofile/sign_in(eventId=${eventId})}">войдите</a> чтобы принять участие.
+		</p>
+		<button th:if="${!user.isTemp() && user != organizer}" hx-post="/events/add-or-delete-parttaker"
+			hx-swap="innerHTML" hx-target="#btn-and-parttakers"
 			th:text="${parttakers.contains(user) ? 'Отменить участие' : 'Участвовать'}" name="eventId"
-			th:value="${event.id}"></button>
+			th:value="${eventId}"></button>
 		</button>
 		<div th:if="${parttakers.isEmpty()}">
 			Участников пока нет.
 		</div>
 		<div th:unless="${parttakers.isEmpty()}">
 			Уже участвуют: <span th:each="parttaker : ${parttakers}" th:text="*{parttaker.name + ', '}"></span>
+		</div>
+	</div>
+	<div th:fragment="aviable-events">
+		<div th:if="${aviableEvents.isEmpty()}">
+			<p>Нет доступных мероприятий.</p>
+		</div>
+		<div th:unless="${aviableEvents.isEmpty()}">
+			Доступные мероприятия:
+			<div th:each="event : ${aviableEvents}" th:object="${event}">
+				<a th:text="*{name} + ' (' + *{startDatetime} + ' - ' + *{endDatetime} + ')'"
+					th:href="@{/events/{id}(id=${event.id})}">Новое мероприятие (01.02.2026 10:30 - 01.02.2026 14:30)</a>
+			</div>
+		</div>
+	</div>
+	<div th:fragment="user-events">
+		<div th:if="${userEvents.isEmpty()}">
+			<p>Вы не зарегистрированы ни на одно мероприятие.</p>
+		</div>
+		<div th:unless="${userEvents.isEmpty()}">
+			Ваши мероприятия:
+			<div th:each="event : ${userEvents}" th:object="${event}">
+				<a th:text="*{name} + ' (' + *{startDatetime} + ' - ' + *{endDatetime} + ')'"
+					th:href="@{/events/{id}(id=${event.id})}">Новое мероприятие (01.02.2026 10:30 - 01.02.2026 14:30)</a>
+			</div>
+		</div>
+	</div>
+	<div th:fragment="organized-events">
+		<div th:unless="${organizedEvents.isEmpty()}">
+			Вы проводите:
+			<div th:each="event : ${organizedEvents}" th:object="${event}">
+				<a th:text="*{name} + ' (' + *{startDatetime} + ' - ' + *{endDatetime} + ')'"
+					th:href="@{/events/{id}(id=${event.id})}">Новое мероприятие (01.02.2026 10:30 - 01.02.2026 14:30)</a>
+			</div>
 		</div>
 	</div>
 </body>

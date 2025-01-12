@@ -11,15 +11,11 @@
 	<div>
 		<p th:text="${'Дата и время начала: ' + event.startDatetime}">Дата и время начала: 01.02.2026 10:30</p>
 		<p th:text="${'Дата и время окончания: ' + event.endDatetime}">Дата и время окончания: 15.02.2026 14:30</p>
-		<div th:insert="~{_fragments :: btn-and-parttakers}">
-			<button>Участвовать</button>
-			<div th:if="${parttakers.isEmpty()}">
-				Участников пока нет.
-			</div>
-			<div th:unless="${parttakers.isEmpty()}">
-				Уже участвуют: <span>Иванов Иван, Петров Николай</span>
-			</div>
+		<div>
+			<p th:if="${organizer == user}">Вы являетесь организатором.</p>
+			<p th:unless="${organizer == user}" th:text="${'Организатор: ' + organizer.name}">Организатор: Иван</p>
 		</div>
+		<div th:insert="~{_fragments :: btn-and-parttakers}"></div>
 		<a href="/">На главную</a>
 	</div>
 </body>

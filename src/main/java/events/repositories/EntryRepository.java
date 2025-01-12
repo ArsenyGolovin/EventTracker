@@ -14,9 +14,10 @@ import events.dataClasses.User;
 @Repository
 public interface EntryRepository extends CrudRepository<Entry, Integer> {
 
-	@Query("SELECT * FROM CLIENTS INNER JOIN  (SELECT parttaker_id FROM ENTRIES WHERE event_id = :eventId) AS EVENTS ON CLIENTS.id = EVENTS.parttaker_id")
+	@Query("SELECT * FROM CLIENTS JOIN (SELECT parttaker_id FROM ENTRIES WHERE event_id = :eventId) AS E ON CLIENTS.id = E.parttaker_id")
 	List<User> findParttakersByEventId(int eventId);
 
+	@Query("SELECT * FROM EVENTS JOIN (SELECT event_id FROM ENTRIES WHERE parttaker_id = :parttakerId) AS E ON EVENTS.id = E.event_id")
 	List<Event> findEventsByParttakerId(int parttakerId);
 
 	@Modifying
