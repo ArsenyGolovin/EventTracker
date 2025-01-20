@@ -55,11 +55,8 @@ public class EventController {
 	}
 
 	@PostMapping("/create")
-	public String createEvent(Model model, @ModelAttribute Event event) {
-		User user = (User) model.getAttribute("user"); // Don't add via @ModelAttribute -
-														// Event.name and User.name will be mixed up.
+	public String createEvent(Model model, @ModelAttribute User user, @ModelAttribute Event event) {
 		event.setCreatorId(user.getId());
-		System.out.println(event);
 		event = eventRepo.save(event);
 		return "redirect:/events/" + event.getId();
 	}

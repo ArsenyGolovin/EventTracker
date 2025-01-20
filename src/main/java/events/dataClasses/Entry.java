@@ -13,6 +13,7 @@ public class Entry {
 
 	@Id
 	private long id;
+
 	private final long parttakerId;
 	private final long eventId;
 }

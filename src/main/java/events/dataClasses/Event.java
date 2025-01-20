@@ -5,6 +5,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.MappedCollection;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,7 +21,7 @@ public class Event implements Comparable<Event> {
 	private long creatorId;
 	private LocalDateTime startDatetime;
 	private LocalDateTime endDatetime;
-	//@MappedCollection(idColumn = "ID", keyColumn = "EVENT_ID")
+	@MappedCollection(idColumn = "EVENT_ID")
 	private Set<Stage> stages = new LinkedHashSet<>();
 
 	@Override
@@ -30,9 +31,6 @@ public class Event implements Comparable<Event> {
 
 	public void addStage() {
 		Stage s = new Stage();
-		s.setId(LocalDateTime.now().hashCode());
-		//s.setId(UlidCreator.getUlid().toString());
-		//s.setEventId(id);
 		stages.add(s);
 	}
 

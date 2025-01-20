@@ -2,6 +2,8 @@ package events.dataClasses;
 
 import org.springframework.data.annotation.Id;
 
+import com.github.f4b6a3.ulid.UlidCreator;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -10,7 +12,7 @@ import lombok.EqualsAndHashCode;
 public class Stage {
 
 	@Id
-	private long id;
+	private String id = UlidCreator.getUlid().toString();
 
 	private String title;
 }
