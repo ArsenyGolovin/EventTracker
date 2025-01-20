@@ -2,15 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+	<script src='https://unpkg.com/htmx.org/dist/htmx.min.js'></script>
 	<title>Создание мероприятия</title>
 </head>
 
 <body>
 	<h1>Cоздайте план своего мероприятия здесь.</h1>
-	<form method="post">
-		<p>Название: <input type="text" th:field="${event.name}"></p>
-		<p>Дата и время начала: <input th:type="datetime-local" th:field="${event.startDatetime}"></p>
-		<p>Дата и время окончания: <input th:type="datetime-local" th:field="*{event.endDatetime}"></p>
+	<form method="post" th:object="${event}">
+		<p>Название: <input type="text" th:field="*{name}"></p>
+		<p>Дата и время начала: <input th:type="datetime-local" th:field="*{startDatetime}"></p>
+		<p>Дата и время окончания: <input th:type="datetime-local" th:field="*{endDatetime}"></p>
+		<div>
+			<button hx-get="/events/get-stage-div" hx-swap="beforebegin" type="button">
+				Добавить этап
+			</button>
+		</div>
 		<button>Готово</button>
 	</form>
 </body>

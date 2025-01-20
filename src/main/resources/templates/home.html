@@ -17,9 +17,9 @@
 		</p>
 	</div>
 	<div th:unless="${user.id == 0}">
-		<p>Ваш профиль: <a th:text="${user.name}" href="/userprofile">Anton</a></p>
+		<p>Ваш профиль: <a href="/userprofile">[[${user.name}]]</a></p>
 	</div>
-	<div th:replace="~{_fragments :: user-events}">Вы не зарегистрированы ни на одно мероприятие.</div>
+	<div th:replace="~{_fragments :: user-events}"></div>
 	<div th:replace="~{_fragments :: organized-events}"></div>
-	<div th:replace="~{_fragments :: aviable-events}">Нет доступных мероприятий.</div>
+	<div th:replace="~{_fragments :: aviable-events}"></div>
 </body>

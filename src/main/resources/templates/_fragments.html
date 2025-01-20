@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head></head>
 
@@ -9,15 +10,14 @@
 			<a th:href="@{/userprofile/sign_in(eventId=${eventId})}">войдите</a> чтобы принять участие.
 		</p>
 		<button th:if="${!user.isTemp() && user != organizer}" hx-post="/events/add-or-delete-parttaker"
-			hx-swap="innerHTML" hx-target="#btn-and-parttakers"
-			th:text="${parttakers.contains(user) ? 'Отменить участие' : 'Участвовать'}" name="eventId"
-			th:value="${eventId}"></button>
+			hx-swap="innerHTML" hx-target="#btn-and-parttakers" name="eventId"
+			th:value="${eventId}">[[${parttakers.contains(user) ? 'Отменить участие' : 'Участвовать'}]]</button>
 		</button>
 		<div th:if="${parttakers.isEmpty()}">
 			Участников пока нет.
 		</div>
 		<div th:unless="${parttakers.isEmpty()}">
-			Уже участвуют: <span th:each="parttaker : ${parttakers}" th:text="*{parttaker.name + ', '}"></span>
+			Уже участвуют: <span th:each="parttaker : ${parttakers}">[[*{parttaker.name}]], </span>
 		</div>
 	</div>
 	<div th:fragment="aviable-events">
@@ -27,8 +27,10 @@
 		<div th:unless="${aviableEvents.isEmpty()}">
 			Доступные мероприятия:
 			<div th:each="event : ${aviableEvents}" th:object="${event}">
-				<a th:text="*{name} + ' (' + *{startDatetime} + ' - ' + *{endDatetime} + ')'"
-					th:href="@{/events/{id}(id=${event.id})}">Новое мероприятие (01.02.2026 10:30 - 01.02.2026 14:30)</a>
+				<a th:href="@{/events/{id}(id=${event.id})}">
+					[[*{name}]] ([[*{#temporals.format(startDatetime, 'dd-MM-yyyy HH:mm')}]] -
+					[[*{#temporals.format(endDatetime, 'dd-MM-yyyy HH:mm')}]])
+				</a>
 			</div>
 		</div>
 	</div>
@@ -39,8 +41,10 @@
 		<div th:unless="${userEvents.isEmpty()}">
 			Ваши мероприятия:
 			<div th:each="event : ${userEvents}" th:object="${event}">
-				<a th:text="*{name} + ' (' + *{startDatetime} + ' - ' + *{endDatetime} + ')'"
-					th:href="@{/events/{id}(id=${event.id})}">Новое мероприятие (01.02.2026 10:30 - 01.02.2026 14:30)</a>
+				<a th:href="@{/events/{id}(id=${event.id})}">
+					[[*{name}]] ([[*{#temporals.format(startDatetime, 'dd-MM-yyyy HH:mm')}]] -
+					[[*{#temporals.format(endDatetime, 'dd-MM-yyyy HH:mm')}]])
+				</a>
 			</div>
 		</div>
 	</div>
@@ -48,9 +52,17 @@
 		<div th:unless="${organizedEvents.isEmpty()}">
 			Вы проводите:
 			<div th:each="event : ${organizedEvents}" th:object="${event}">
-				<a th:text="*{name} + ' (' + *{startDatetime} + ' - ' + *{endDatetime} + ')'"
-					th:href="@{/events/{id}(id=${event.id})}">Новое мероприятие (01.02.2026 10:30 - 01.02.2026 14:30)</a>
+				<a th:href="@{/events/{id}(id=${event.id})}">
+					[[*{name}]] ([[*{#temporals.format(startDatetime, 'dd-MM-yyyy HH:mm')}]] -
+					[[*{#temporals.format(endDatetime, 'dd-MM-yyyy HH:mm')}]])
+				</a>
 			</div>
 		</div>
+	</div>
+	<div th:fragment="new-stage">
+		<span>
+			[[${event.getStagesNum()}]]. Введите название:
+		</span>
+		<input th:field="${event.stages[__${event.getStagesNum() - 1}__].title}">
 	</div>
 </body>

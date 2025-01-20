@@ -1,23 +1,18 @@
 package events.dataClasses;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
 
 @Data
-@Table("ENTRIES")
+@RequiredArgsConstructor
+@EqualsAndHashCode(of = { "parttakerId", "eventId" })
 public class Entry {
 
 	@Id
-	private int id;
-
-	private int parttakerId;
-	private int eventId;
-
-	public Entry(int parttakerId, int eventId) {
-		this.id = 0;
-		this.parttakerId = parttakerId;
-		this.eventId = eventId;
-	}
+	private long id;
+	private final long parttakerId;
+	private final long eventId;
 }

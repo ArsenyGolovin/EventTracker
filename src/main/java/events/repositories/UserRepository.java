@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import events.dataClasses.User;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, Integer> {
+public interface UserRepository extends CrudRepository<User, Long> {
 
 	Optional<User> findByName(String name);
 }

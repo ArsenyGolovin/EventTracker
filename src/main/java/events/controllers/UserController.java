@@ -18,21 +18,17 @@ import events.dataClasses.User;
 import events.repositories.EntryRepository;
 import events.repositories.EventRepository;
 import events.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
 
 @Controller
 @SessionAttributes("user")
+@RequiredArgsConstructor
 @RequestMapping("/userprofile")
 public class UserController {
 
 	private final UserRepository userRepo;
 	private final EventRepository eventRepo;
 	private final EntryRepository entryRepo;
-
-	public UserController(UserRepository userRepo, EventRepository eventRepo, EntryRepository entryRepo) {
-		this.userRepo = userRepo;
-		this.eventRepo = eventRepo;
-		this.entryRepo = entryRepo;
-	}
 
 	@GetMapping("/sign_up")
 	public String showSignUpForm(Model model, @RequestParam(required = false) Integer eventId) {

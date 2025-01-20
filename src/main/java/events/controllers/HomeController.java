@@ -12,18 +12,15 @@ import events.dataClasses.Event;
 import events.dataClasses.User;
 import events.repositories.EntryRepository;
 import events.repositories.EventRepository;
+import lombok.RequiredArgsConstructor;
 
 @Controller
+@RequiredArgsConstructor
 @SessionAttributes("user")
 public class HomeController {
 
 	private final EventRepository eventRepo;
 	private final EntryRepository entryRepo;
-
-	public HomeController(EventRepository eventRepo, EntryRepository entryRepo) {
-		this.eventRepo = eventRepo;
-		this.entryRepo = entryRepo;
-	}
 
 	@GetMapping("/")
 	public String showHomePage(Model model, @ModelAttribute User user) {

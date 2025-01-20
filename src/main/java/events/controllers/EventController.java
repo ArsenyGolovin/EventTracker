@@ -19,9 +19,11 @@ import events.dataClasses.User;
 import events.repositories.EntryRepository;
 import events.repositories.EventRepository;
 import events.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
 
 @Controller
-@SessionAttributes("user")
+@SessionAttributes({ "user", "event" })
+@RequiredArgsConstructor
 @RequestMapping("/events")
 public class EventController {
 
@@ -29,14 +31,8 @@ public class EventController {
 	private final EventRepository eventRepo;
 	private final EntryRepository entryRepo;
 
-	public EventController(UserRepository userRepo, EventRepository eventRepo, EntryRepository entryRepo) {
-		this.userRepo = userRepo;
-		this.eventRepo = eventRepo;
-		this.entryRepo = entryRepo;
-	}
-
 	@GetMapping("/{eventId}")
-	public String showEvent(Model model, @PathVariable int eventId) {
+	public String showEvent(Model model, @PathVariable long eventId) {
 		Optional<Event> e = eventRepo.findById(eventId);
 		if (e.isPresent()) {
 			Event event = e.get();
@@ -44,6 +40,7 @@ public class EventController {
 			model.addAttribute("event", event);
 			List<User> parttakers = entryRepo.findParttakersByEventId(event.getId());
 			model.addAttribute("parttakers", parttakers);
+			model.addAttribute("stages", event.getStages());
 			return "event";
 		} else {
 			model.addAttribute("message", "Мероприятие не найдено.");
@@ -62,12 +59,13 @@ public class EventController {
 		User user = (User) model.getAttribute("user"); // Don't add via @ModelAttribute -
 														// Event.name and User.name will be mixed up.
 		event.setCreatorId(user.getId());
+		System.out.println(event);
 		event = eventRepo.save(event);
 		return "redirect:/events/" + event.getId();
 	}
 
 	@PostMapping(path = "/add-or-delete-parttaker", headers = "hx-request=true")
-	private String addOrDeleteParttaker(Model model, @RequestParam int eventId, @ModelAttribute User user) {
+	private String addOrDeleteParttaker(Model model, @RequestParam long eventId, @ModelAttribute User user) {
 		List<User> parttakers = entryRepo.findParttakersByEventId(eventId);
 		if (parttakers.contains(user)) {
 			entryRepo.deleteByParttakerIdAndEventId(user.getId(), eventId);
@@ -79,5 +77,12 @@ public class EventController {
 		model.addAttribute("parttakers", parttakers);
 		model.addAttribute("eventId", eventId);
 		return "_fragments :: btn-and-parttakers";
+	}
+
+	@GetMapping(path = "/get-stage-div", headers = "hx-request=true")
+	private String addEmptyStageAndReturnDiv(Model model, @ModelAttribute Event event) {
+		event.addStage();
+		model.addAttribute("event", event);
+		return "_fragments :: new-stage";
 	}
 }

@@ -3,18 +3,19 @@
 
 <head>
 	<script src='https://unpkg.com/htmx.org/dist/htmx.min.js'></script>
-	<title th:text="${event.name}">Поездка в Карелию</title>
+	<title>[[${event.name}]]</title>
 </head>
 
 <body>
-	<h1 th:text="${event.name}">Поездка в Карелию</h1>
+	<h1>[[${event.name}]]</h1>
 	<div>
-		<p th:text="${'Дата и время начала: ' + event.startDatetime}">Дата и время начала: 01.02.2026 10:30</p>
-		<p th:text="${'Дата и время окончания: ' + event.endDatetime}">Дата и время окончания: 15.02.2026 14:30</p>
-		<div>
-			<p th:if="${organizer == user}">Вы являетесь организатором.</p>
-			<p th:unless="${organizer == user}" th:text="${'Организатор: ' + organizer.name}">Организатор: Иван</p>
-		</div>
+		<p>Дата и время начала: [[${event.startDatetime}]]</p>
+		<p>Дата и время окончания: [[${event.endDatetime}]]</p>
+		<p>[[${organizer == user ? 'Вы являетесь организатором.' : 'Организатор: ' + organizer.name}]]</p>
+		<p th:if="${event.getStagesNum() > 0}">
+			Этапы:
+			<div th:each="stage, iterStat : ${event.stages}">[[${iterStat.count}]]. [[${stage.title}]]</div>
+		</p>
 		<div th:insert="~{_fragments :: btn-and-parttakers}"></div>
 		<a href="/">На главную</a>
 	</div>
