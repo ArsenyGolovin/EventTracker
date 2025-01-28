@@ -32,7 +32,7 @@ public class EventController {
 	private final EntryRepository entryRepo;
 
 	@GetMapping("/{eventId}")
-	public String showEvent(Model model, @PathVariable long eventId) {
+	public String showEvent(Model model, @PathVariable int eventId) {
 		Optional<Event> e = eventRepo.findById(eventId);
 		if (e.isPresent()) {
 			Event event = e.get();
@@ -55,14 +55,16 @@ public class EventController {
 	}
 
 	@PostMapping("/create")
-	public String createEvent(Model model, @ModelAttribute User user, @ModelAttribute Event event) {
+	public String createEvent(Model model, @ModelAttribute Event event) {
+		User user = (User) model.getAttribute("user"); // Don't add via @ModelAttribute
+														// - event.name will be written into user.name too
 		event.setCreatorId(user.getId());
 		event = eventRepo.save(event);
 		return "redirect:/events/" + event.getId();
 	}
 
 	@PostMapping(path = "/add-or-delete-parttaker", headers = "hx-request=true")
-	private String addOrDeleteParttaker(Model model, @RequestParam long eventId, @ModelAttribute User user) {
+	private String addOrDeleteParttaker(Model model, @ModelAttribute User user, @RequestParam int eventId) {
 		List<User> parttakers = entryRepo.findParttakersByEventId(eventId);
 		if (parttakers.contains(user)) {
 			entryRepo.deleteByParttakerIdAndEventId(user.getId(), eventId);

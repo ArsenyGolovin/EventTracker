@@ -9,8 +9,8 @@
 <body>
 	<h1>[[${event.name}]]</h1>
 	<div>
-		<p>Дата и время начала: [[${event.startDatetime}]]</p>
-		<p>Дата и время окончания: [[${event.endDatetime}]]</p>
+		<p>Дата и время начала: [[${#temporals.format(event.startDatetime, 'dd-MM-yyyy HH:mm')}]]</p>
+		<p>Дата и время окончания: [[${#temporals.format(event.endDatetime, 'dd-MM-yyyy HH:mm')}]]</p>
 		<p>[[${organizer == user ? 'Вы являетесь организатором.' : 'Организатор: ' + organizer.name}]]</p>
 		<p th:if="${event.getStagesNum() > 0}">
 			Этапы:
