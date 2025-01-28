@@ -12,8 +12,8 @@ import lombok.RequiredArgsConstructor;
 public class Entry {
 
 	@Id
-	private long id;
+	private int id;
 
-	private final long parttakerId;
-	private final long eventId;
+	private final int parttakerId;
+	private final int eventId;
 }

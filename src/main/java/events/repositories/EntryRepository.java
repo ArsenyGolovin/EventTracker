@@ -12,15 +12,15 @@ import events.dataClasses.Event;
 import events.dataClasses.User;
 
 @Repository
-public interface EntryRepository extends CrudRepository<Entry, Long> {
+public interface EntryRepository extends CrudRepository<Entry, Integer> {
 
-	@Query("SELECT * FROM Client JOIN (SELECT parttaker_id FROM Entry WHERE event_id = :eventId) AS E ON Client.id = E.parttaker_id")
-	List<User> findParttakersByEventId(Long eventId);
+	@Query("SELECT * FROM client JOIN (SELECT parttaker_id FROM entry WHERE event_id = :eventId) AS e ON client.id = e.parttaker_id")
+	List<User> findParttakersByEventId(int eventId);
 
-	@Query("SELECT * FROM Event JOIN (SELECT event_id FROM Entry WHERE parttaker_id = :parttakerId) AS E ON Event.id = E.event_id")
-	List<Event> findEventsByParttakerId(Long parttakerId);
+	@Query("SELECT * FROM event JOIN (SELECT event_id FROM entry WHERE parttaker_id = :parttakerId) AS e ON event.id = e.event_id")
+	List<Event> findEventsByParttakerId(int parttakerId);
 
 	@Modifying
-	@Query("DELETE FROM Entry WHERE parttaker_id = :parttakerId AND event_id = :eventId")
-	void deleteByParttakerIdAndEventId(Long parttakerId, Long eventId);
+	@Query("DELETE FROM entry WHERE parttaker_id = :parttakerId AND event_id = :eventId")
+	void deleteByParttakerIdAndEventId(int parttakerId, int eventId);
 }
