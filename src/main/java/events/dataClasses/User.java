@@ -8,11 +8,11 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(of = { "id" })
-@Table("CLIENT")
+@Table("client")
 public class User {
 
 	@Id
-	private long id;
+	private int id;
 
 	private String name;
 	private String password;

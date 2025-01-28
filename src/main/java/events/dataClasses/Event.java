@@ -15,12 +15,13 @@ import lombok.EqualsAndHashCode;
 public class Event implements Comparable<Event> {
 
 	@Id
-	private long id;
+	private int id;
 
 	private String name;
-	private long creatorId;
+	private int creatorId;
 	private LocalDateTime startDatetime;
 	private LocalDateTime endDatetime;
+	
 	@MappedCollection(idColumn = "EVENT_ID")
 	private Set<Stage> stages = new LinkedHashSet<>();
 

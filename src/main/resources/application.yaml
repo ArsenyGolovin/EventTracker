@@ -1,6 +1,16 @@
+server:
+  port: 9599
 spring:
   application:
     name: EventTracker
   datasource:
     generate-unique-name: false
-    name: EventTracker
+    name: eventTracker
+    url: ${MYSQL_URL}
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      schema-locations: classpath:schema.sql
+      mode: always

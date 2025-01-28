@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import events.dataClasses.Event;
 
 @Repository
-public interface EventRepository extends CrudRepository<Event, Long> {
+public interface EventRepository extends CrudRepository<Event, Integer> {
 
-	List<Event> findByCreatorId(Long creatorId);
+	List<Event> findByCreatorId(int creatorId);
 }
