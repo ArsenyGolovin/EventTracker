@@ -11,7 +11,7 @@
 		</p>
 		<button th:if="${!user.isTemp() && user != organizer}" hx-post="/events/add-or-delete-parttaker"
 			hx-swap="innerHTML" hx-target="#btn-and-parttakers" name="eventId"
-			th:value="${eventId}">[[${parttakers.contains(user) ? 'Отменить участие' : 'Участвовать'}]]</button>
+			th:value="${eventId}">[[${parttakers.contains(user) ? 'Отменить участие' : 'Участвовать'}]]
 		</button>
 		<div th:if="${parttakers.isEmpty()}">
 			Участников пока нет.

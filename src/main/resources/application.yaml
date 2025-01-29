@@ -6,9 +6,9 @@ spring:
   datasource:
     generate-unique-name: false
     name: eventTracker
-    url: jdbc:mysql://localhost:3306/eventTracker
-    username: user
-    password: rootpassword
+    url: ${MYSQL_URL}
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
   sql:
     init:
